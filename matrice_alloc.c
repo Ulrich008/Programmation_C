@@ -49,22 +49,27 @@ MatErreur mat_allouer(Matrice *res, int nb_lignes, int nb_colonnes)
     if (coef == NULL)
         return MAT_ERR_ALLOCATION;
 
-    /* (1.d) À COMPLÉTER : allouer chaque ligne.
-     *   for (int i = 0; i < nb_lignes; i++) {
-     *       coef[i] = mat_calloc(..., ...);    // nb_colonnes entiers
-     *       if (coef[i] == NULL) {
-     *           for (int k = i - 1; k >= 0; k--)  // lignes déjà
-     *               free(coef[k]);                // obtenues
-     *           free(coef);                       // puis le tableau
-     *           return MAT_ERR_ALLOCATION;
-     *       }
-     *   }                                                             */
+    // (1.d) allouer chaque ligne.
+    for (int i = 0; i < nb_lignes; i++) {
+        coef[i] = mat_calloc((size_t)nb_colonnes, sizeof *coef[i]);    // nb_colonnes entiers
+        if (coef[i] == NULL) {
+            for (int k = i - 1; k >= 0; k--) {
+                free(coef[k]); // lignes déjà obtenues
+            } 
+            free(coef);                       // puis le tableau
+            return MAT_ERR_ALLOCATION;
+            
+        }                                                           
+    }
 
-    (void)nb_colonnes;   /* ligne provisoire : à supprimer en (1.d) */
 
     /* (1.e) À COMPLÉTER : maintenant que tout a réussi, remplir *res
      *       (trois affectations : coef, nb_lignes, nb_colonnes)
      *       et renvoyer MAT_OK.                                        */
+    res->coef = coef;
+    res->nb_lignes = nb_lignes;
+    res->nb_colonnes = nb_colonnes;
+    return MAT_OK;
 
     free(coef);                  /* ligne provisoire : à supprimer en (1.e) */
     return MAT_ERR_LECTURE;      /* ligne provisoire : à remplacer en (1.e) */
