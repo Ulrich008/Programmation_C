@@ -81,7 +81,7 @@ Le schéma ci-dessous illustre la dépendance des fichiers du projet vis-à-vis 
     }
 */
 * **1.d** 
-/* for (int i = 0; i < nb_lignes; i++) {
+/*  for (int i = 0; i < nb_lignes; i++) {
         coef[i] = mat_calloc((size_t)nb_colonnes, sizeof *coef[i]);    // nb_colonnes entiers
         if (coef[i] == NULL) {
             for (int k = i - 1; k >= 0; k--) {
@@ -91,8 +91,7 @@ Le schéma ci-dessous illustre la dépendance des fichiers du projet vis-à-vis 
             return MAT_ERR_ALLOCATION;
             
         }                                                           
-    }
-   */
+    } */
 ```text
 coef (tableau alloué)
 ┌──────────┬──────────┬──────────┐
