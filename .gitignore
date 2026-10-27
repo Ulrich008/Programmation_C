@@ -1,0 +1,8 @@
+*.o
+*.out
+test_ex1
+test_ex2
+test_ex3
+demo_matrices
+.DS_Store
+.vscode/
