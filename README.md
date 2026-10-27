@@ -88,8 +88,7 @@ Le schéma ci-dessous illustre la dépendance des fichiers du projet vis-à-vis 
                 free(coef[k]); // lignes déjà obtenues
             } 
             free(coef);                       // puis le tableau
-            return MAT_ERR_ALLOCATION;
-            
+            return MAT_ERR_ALLOCATION;   
         }                                                           
     } */
 ```text
