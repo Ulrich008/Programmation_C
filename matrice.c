@@ -15,6 +15,7 @@ const char *mat_message_erreur(MatErreur code)
     case MAT_ERR_LECTURE:     return "erreur de lecture du fichier";
     case MAT_ERR_FORMAT:      return "fichier mal formé";
     case MAT_ERR_ECRITURE:    return "erreur d'écriture du fichier";
+    /* (1.a) */
     case MAT_ERR_DIMENSIONS: return "dimensions incompatibles";
     case MAT_ERR_DEPASSEMENT: return "dépassement de capacité" ;
     default:                  break;
@@ -24,15 +25,13 @@ const char *mat_message_erreur(MatErreur code)
 
 int mat_est_valide(const Matrice *m)
 {
-    /* (1.b) À COMPLÉTER : renvoyer 1 si les QUATRE conditions suivantes
+    /* (1.b) renvoyer 1 si les QUATRE conditions suivantes
      *       sont vraies, 0 sinon :
      *         - m n'est pas NULL ;
      *         - m->coef n'est pas NULL ;
      *         - 1 <= m->nb_lignes <= MAT_DIM_MAX ;
      *         - 1 <= m->nb_colonnes <= MAT_DIM_MAX.
-     *       Une seule instruction suffit :
-     *         return m != NULL && m->coef != NULL && ... ;            */
+                */
 
-    (void)m;      /* ligne provisoire : à supprimer en (1.b) */
-    return 0;     /* ligne provisoire : à remplacer en (1.b) */
+    return m!=NULL && m->coef!=NULL && 1 <= m->nb_lignes && m->nb_lignes <= MAT_DIM_MAX && 1 <= m->nb_colonnes && m->nb_colonnes <= MAT_DIM_MAX ;
 }
