@@ -147,4 +147,94 @@ res->coef = coef;
 Bilan : 16 / 16 verifications reussies.
 ```
 
+### Exercice 2 : Entrées-sorties
+#### Code écrit
+* **2.a :**
+```c
+for (int i = 0; i < m->nb_lignes; i++) {
+    for (int j = 0; j < m->nb_colonnes; j++)
+        printf(" %8d", m->coef[i][j]);
+    putchar('\n');
+}
+```
+* **2.b :**
+```c
+for (int i = 0; i < m->nb_lignes; i++) {
+    for (int j = 0; j < m->nb_colonnes; j++) {
+        if (fprintf(f, j == 0 ? "%d" : " %d", m->coef[i][j]) < 0)
+            return MAT_ERR_ECRITURE;
+    }
+    if (fputc('\n', f) == EOF)
+        return MAT_ERR_ECRITURE;
+}
+```
+* **2.c :**
+```c
+if (nb_lignes < 1 || nb_lignes > MAT_DIM_MAX
+    || nb_colonnes < 1 || nb_colonnes > MAT_DIM_MAX)
+    return MAT_ERR_FORMAT;
+```
+* **2.d :**
+```c
+Matrice tmp;
+err = mat_allouer(&tmp, nb_lignes, nb_colonnes);
+if (err != MAT_OK)
+    return err;
+```
+* **2.e :**
+```c
+for (int i = 0; i < nb_lignes; i++) {
+    for (int j = 0; j < nb_colonnes; j++) {
+        err = lire_entier(f, &tmp.coef[i][j]);
+        if (err != MAT_OK) {
+            mat_detruire(&tmp);
+            return err;
+        }
+    }
+}
+```
+* **2.f :**
+```c
+*res = tmp;
+return MAT_OK;
+```
+
+#### Réponses aux questions
+* **Q4.1 :** mat_lire remplit d'abord une matrice locale tmp avant de l'affecter à *res pour garantir la règle R3. Si une erreur survient pendant la lecture des coefficients (fichier tronqué, donnée invalide), la fonction peut libérer tmp proprement sans laisser *res dans un état partiellement construit. L'appelant reçoit soit une matrice complète et valide, soit MATRICE_VIDE en cas d'échec.
+* **Q4.2 :** Non, la lecture ne vérifie pas que chaque ligne de la matrice est sur sa propre ligne de texte. La fonction lire_entier saute tous les blancs (espaces, tabulations, sauts de ligne) grâce à fscanf("%31s", mot). Ce n'est pas gênant car le format du fichier est tolérant en lecture : seule la séquence des entiers importe. En revanche, l'écriture est stricte (format canonique) pour garantir que le fichier produit est lisible et modifiable par un humain.
+* **Q4.3 :** Après mat_lire(f, &m), le flux f est positionné juste après le dernier coefficient. On peut donc stocker plusieurs matrices dans un même fichier en les écrivant successivement, puis en les relisant avec plusieurs appels consécutifs à mat_lire sur le même flux ouvert. Par exemple, un fichier contenant "2 2\n1 2\n3 4\n3 3\n1 2 3\n4 5 6\n7 8 9\n" permet de lire deux matrices sans fermer le fichier.
+* **Q4.4 :** mat_ecrire appelle fflush avant de renvoyer MAT_OK pour forcer l'écriture du tampon dans le fichier et détecter une erreur d'écriture (disque plein, par exemple). Cela ne dispense pas l'appelant de tester fclose : une erreur peut encore survenir lors de la fermeture du fichier (mise à jour des métadonnées du système de fichiers). La fonction sauvegarder dans main.c teste donc fclose et renvoie MAT_ERR_ECRITURE si nécessaire.
+
+### Sortie Du Test (test_ex2)
+```text
+=== Exercice 2 : affichage (verification visuelle) ===
+M (4 x 3) :
+       1        2        3
+       4        5        6
+       7        8        9
+      10       11       12
+(2.a) Vous devez voir ci-dessus 4 lignes : 1 2 3 / 4 5 6 / 7 8 9 / 10 11 12
+=== Exercice 2 : ecriture ===
+[OK]    ouverture de test_ex2_sortie.txt en ecriture
+[OK]    (2.b) mat_ecrire renvoie MAT_OK
+[OK]    (2.b) le fichier contient exactement le format attendu
+[OK]    (2.b) mat_ecrire refuse une matrice vide
+=== Exercice 2 : relecture ===
+[OK]    (2.f) mat_lire relit le fichier : MAT_OK
+[OK]    (2.e) la matrice relue est identique
+[OK]    (2.e) espaces et sauts de ligne en trop sont toleres
+=== Exercice 2 : fichiers incorrects ===
+[OK]    (2.c) fichier vide
+[OK]    (2.c) dimension nulle
+[OK]    (2.c) dimension negative
+[OK]    (2.e) coefficient manquant
+[OK]    (2.e) donnee non numerique
+[OK]    (2.e) entier trop grand pour un int
+=== Exercice 2 : echec d'allocation simule ===
+[OK]    (2.d) mat_lire renvoie MAT_ERR_ALLOCATION proprement
+
+Bilan : 14 / 14 verifications reussies.
+```
+
+
 
