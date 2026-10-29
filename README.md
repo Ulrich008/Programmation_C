@@ -95,7 +95,8 @@ if ( nb_lignes < 1 || nb_lignes > MAT_DIM_MAX || nb_colonnes < 1 || nb_colonnes 
             free(coef);                       // puis le tableau
             return MAT_ERR_ALLOCATION;   
         }                                                           
-    } ```
+    } 
+```
 ```text
 coef (tableau alloué)
 ┌──────────┬──────────┬──────────┐
@@ -111,7 +112,7 @@ coef (tableau alloué)
     res->nb_lignes = nb_lignes;
     res->nb_colonnes = nb_colonnes;
     return MAT_OK; 
-    ```
+```
 * **1.f**
 ```c
     if (m->coef != NULL){
