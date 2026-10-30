@@ -70,18 +70,23 @@ Le schéma ci-dessous illustre la dépendance des fichiers du projet vis-à-vis 
 ### Exercice 1 : Allocation et destruction
 #### Code écrit
 * **1.a :** 
-/* case MAT_ERR_DIMENSIONS: return "dimensions incompatibles";
-   case MAT_ERR_DEPASSEMENT: return "dépassement de capacité" ;
-*/
+```c
+case MAT_ERR_DIMENSIONS: return "dimensions incompatibles";
+case MAT_ERR_DEPASSEMENT: return "dépassement de capacité" ;
+```
 * **1.b**
-/* return m!=NULL && m->coef!=NULL && 1 <= m->nb_lignes && m->nb_lignes <= MAT_DIM_MAX && 1 <= m->nb_colonnes && m->nb_colonnes <= MAT_DIM_MAX ; */
+```c
+return m!=NULL && m->coef!=NULL && 1 <= m->nb_lignes && m->nb_lignes <= MAT_DIM_MAX && 1 <= m->nb_colonnes && m->nb_colonnes <= MAT_DIM_MAX ; 
+```
 * **1.c**
-/*  if ( nb_lignes < 1 || nb_lignes > MAT_DIM_MAX || nb_colonnes < 1 || nb_colonnes > MAT_DIM_MAX ) {
-        return MAT_ERR_ARGUMENT ;
-    }
-*/
+```c
+if ( nb_lignes < 1 || nb_lignes > MAT_DIM_MAX || nb_colonnes < 1 || nb_colonnes > MAT_DIM_MAX ) {
+    return MAT_ERR_ARGUMENT ;
+}
+```
 * **1.d** 
-/*  for (int i = 0; i < nb_lignes; i++) {
+```c
+    for (int i = 0; i < nb_lignes; i++) {
         coef[i] = mat_calloc((size_t)nb_colonnes, sizeof *coef[i]);    // nb_colonnes entiers
         if (coef[i] == NULL) {
             for (int k = i - 1; k >= 0; k--) {
@@ -90,7 +95,8 @@ Le schéma ci-dessous illustre la dépendance des fichiers du projet vis-à-vis 
             free(coef);                       // puis le tableau
             return MAT_ERR_ALLOCATION;   
         }                                                           
-    } */
+    } 
+```
 ```text
 coef (tableau alloué)
 ┌──────────┬──────────┬──────────┐
@@ -101,20 +107,21 @@ coef (tableau alloué)
   [Ligne 0]  [Ligne 1]  (échec)
 ```
 * **1.e**
-*/
-res->coef = coef;
+```c
+    res->coef = coef;
     res->nb_lignes = nb_lignes;
     res->nb_colonnes = nb_colonnes;
     return MAT_OK; 
-    */
+```
 * **1.f**
-/* if (m->coef != NULL){
+```c
+    if (m->coef != NULL){
         for(int i=0 ; i< m->nb_lignes ; i++){
             free(m->coef[i]);
         }
         free(m->coef) ;
     }
-*/
+```
 
 #### Réponses aux questions
 * **Q3.1 :** Passer Matrice *m permet de réinitialiser la structure de l'appelant à MATRICE_VIDE (*m = MATRICE_VIDE), respectant la règle R6. En passant par valeur (Matrice m), la fonction ne modifierait qu'une copie locale : les lignes seraient libérées sur le tas, mais l'appelant conserverait des pointeurs "pendants" (dangling pointers), ce que nous avons vérifié lors de nos tests.
