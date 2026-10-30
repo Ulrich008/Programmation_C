@@ -1,12 +1,14 @@
 # TD : Stockage de matrices en c
 
-* **Membres du groupe :**
-    * ZINOUBI Mohamed Iyadh (@iyadhzinoubi-byte)
-    * SKHIRI Zeineb (@zeinebskhiri72-del)
-    * ASSOGBA Ulrich (@Ulrich008)
-* **Groupe de TD :** TD 3
-* **Date de remise :**
+- **Membres du groupe :**
+  - ZINOUBI Mohamed Iyadh (@iyadhzinoubi-byte)
+  - SKHIRI Zeineb (@zeinebskhiri72-del)
+  - ASSOGBA Ulrich (@Ulrich008)
+- **Groupe de TD :** TD 3
+- **Date de remise :**
+
 ## Table de matières
+
 - [1. Introduction](#1-introduction)
 - [2. Conception](#2-conception)
 - [3. Réalisation](#3-réalisation)
@@ -15,13 +17,18 @@
 - [6. Bilan et difficultés](#6-bilan-et-difficultés)
 
 ---
+
 ## 1. Introduction
+
 Ce projet consiste à concevoir une bibliothèque en langage C pour la manipulation de matrices d'entiers allouées dynamiquement. Le code est découpé de manière modulaire afin d'isoler la gestion bas niveau de la mémoire, les opérations d'entrées-sorties dans des fichiers et l'arithmétique matricielle.
-**Statut du projet à la remise :** 
+**Statut du projet à la remise :**
 
 ## 2. Conception
+
 ### Schéma des modules
-Le programme principal `main.c` interagit avec les modules spécialisés selon la hiérarchie ci-dessous : 
+
+Le programme principal `main.c` interagit avec les modules spécialisés selon la hiérarchie ci-dessous :
+
 ```text
                      ┌─────────────────┐
                      │     main.c      │  (Programme principal)
@@ -43,6 +50,7 @@ Le programme principal `main.c` interagit avec les modules spécialisés selon l
                    │     matrice      │                   (Structure & Types de base)
                    └──────────────────┘
 ```
+
 ### Graphe des inclusions des fichiers en-têtes
 
 Le schéma ci-dessous illustre la dépendance des fichiers du projet vis-à-vis des en-têtes (`.h`) :
@@ -65,38 +73,78 @@ Le schéma ci-dessous illustre la dépendance des fichiers du projet vis-à-vis 
           │  matrice.h   │  (Contrat d'API, Matrice, MatStatut)
           └──────────────┘
 ```
+
 ## 3. Realisation
 
 ### Exercice 1 : Allocation et destruction
+
 #### Code écrit
-* **1.a :** 
+
+<<<<<<< HEAD
+
+- **1.a :**
+
 ```c
 case MAT_ERR_DIMENSIONS: return "dimensions incompatibles";
 case MAT_ERR_DEPASSEMENT: return "dépassement de capacité" ;
 ```
-* **1.b**
+
+- **1.b**
+
 ```c
-return m!=NULL && m->coef!=NULL && 1 <= m->nb_lignes && m->nb_lignes <= MAT_DIM_MAX && 1 <= m->nb_colonnes && m->nb_colonnes <= MAT_DIM_MAX ; 
+return m!=NULL && m->coef!=NULL && 1 <= m->nb_lignes && m->nb_lignes <= MAT_DIM_MAX && 1 <= m->nb_colonnes && m->nb_colonnes <= MAT_DIM_MAX ;
 ```
-* **1.c**
+
+- **1.c**
+
 ```c
 if ( nb_lignes < 1 || nb_lignes > MAT_DIM_MAX || nb_colonnes < 1 || nb_colonnes > MAT_DIM_MAX ) {
     return MAT_ERR_ARGUMENT ;
 }
 ```
-* **1.d** 
+
+- **1.d**
+
 ```c
     for (int i = 0; i < nb_lignes; i++) {
         coef[i] = mat_calloc((size_t)nb_colonnes, sizeof *coef[i]);    // nb_colonnes entiers
         if (coef[i] == NULL) {
             for (int k = i - 1; k >= 0; k--) {
                 free(coef[k]); // lignes déjà obtenues
-            } 
+            }
             free(coef);                       // puis le tableau
-            return MAT_ERR_ALLOCATION;   
-        }                                                           
-    } 
+            return MAT_ERR_ALLOCATION;
+        }
+    }
 ```
+
+=======
+
+- **1.a :**
+  /_ case MAT_ERR_DIMENSIONS: return "dimensions incompatibles";
+  case MAT_ERR_DEPASSEMENT: return "dépassement de capacité" ;
+  _/
+- **1.b**
+  /_ return m!=NULL && m->coef!=NULL && 1 <= m->nb_lignes && m->nb_lignes <= MAT_DIM_MAX && 1 <= m->nb_colonnes && m->nb_colonnes <= MAT_DIM_MAX ; _/
+- **1.c**
+  /_ if ( nb_lignes < 1 || nb_lignes > MAT_DIM_MAX || nb_colonnes < 1 || nb_colonnes > MAT_DIM_MAX ) {
+  return MAT_ERR_ARGUMENT ;
+  }
+  _/
+- **1.d**
+  /* for (int i = 0; i < nb_lignes; i++) {
+  coef[i] = mat_calloc((size_t)nb_colonnes, sizeof *coef[i]); // nb_colonnes entiers
+  if (coef[i] == NULL) {
+  for (int k = i - 1; k >= 0; k--) {
+  free(coef[k]); // lignes déjà obtenues
+  }
+  free(coef); // puis le tableau
+  return MAT_ERR_ALLOCATION;  
+   }  
+   } \*/
+
+> > > > > > > 39521f6 (Ajout de l'exercice 3 au README)
+
 ```text
 coef (tableau alloué)
 ┌──────────┬──────────┬──────────┐
@@ -106,14 +154,20 @@ coef (tableau alloué)
      ▼          ▼          X (mat_calloc renvoie NULL)
   [Ligne 0]  [Ligne 1]  (échec)
 ```
-* **1.e**
+
+<<<<<<< HEAD
+
+- **1.e**
+
 ```c
     res->coef = coef;
     res->nb_lignes = nb_lignes;
     res->nb_colonnes = nb_colonnes;
-    return MAT_OK; 
+    return MAT_OK;
 ```
-* **1.f**
+
+- **1.f**
+
 ```c
     if (m->coef != NULL){
         for(int i=0 ; i< m->nb_lignes ; i++){
@@ -123,13 +177,34 @@ coef (tableau alloué)
     }
 ```
 
+=======
+
+- **1.e**
+  _/
+  res->coef = coef;
+  res->nb_lignes = nb_lignes;
+  res->nb_colonnes = nb_colonnes;
+  return MAT_OK;
+  _/
+- **1.f**
+  /_ if (m->coef != NULL){
+  for(int i=0 ; i< m->nb_lignes ; i++){
+  free(m->coef[i]);
+  }
+  free(m->coef) ;
+  }
+  _/
+  > > > > > > > 39521f6 (Ajout de l'exercice 3 au README)
+
 #### Réponses aux questions
-* **Q3.1 :** Passer Matrice *m permet de réinitialiser la structure de l'appelant à MATRICE_VIDE (*m = MATRICE_VIDE), respectant la règle R6. En passant par valeur (Matrice m), la fonction ne modifierait qu'une copie locale : les lignes seraient libérées sur le tas, mais l'appelant conserverait des pointeurs "pendants" (dangling pointers), ce que nous avons vérifié lors de nos tests.
-* **Q3.2 :** Pour une matrice n x p créée avec succès, il y a 1 + n appels à calloc (1 pour le tableau de pointeurs + n pour chaque ligne) et 1 + n appels à free lors de sa destruction. Si la k-ième ligne échoue lors de l'allocation, exactement k + 1 libérations (free) sont exécutées (k lignes + le tableau coef).
-* **Q3.3 :** Appeler deux fois de suite mat_detruire(&a) est sans danger car le premier appel réinitialise a.coef à NULL , le second appel est immédiatement stoppé par la condition if (m->coef != NULL). Cependant, avec la copie Matrice b = a, l'adresse mémoire est dupliquée. Si on détruit a, b.coef pointe sur de la mémoire libérée. Un appel ultérieur à mat_detruire(&b) provoque un plantage critique
-* **Q3.4 :** L'affectation *res = MATRICE_VIDE en début de fonction garantit le respect de la règle R3. Si la fonction échoue prématurément (arguments invalides ou échec mémoire), l'appelant est certain de récupérer une structure neutre et sécurisée.
+
+- **Q3.1 :** Passer Matrice *m permet de réinitialiser la structure de l'appelant à MATRICE_VIDE (*m = MATRICE_VIDE), respectant la règle R6. En passant par valeur (Matrice m), la fonction ne modifierait qu'une copie locale : les lignes seraient libérées sur le tas, mais l'appelant conserverait des pointeurs "pendants" (dangling pointers), ce que nous avons vérifié lors de nos tests.
+- **Q3.2 :** Pour une matrice n x p créée avec succès, il y a 1 + n appels à calloc (1 pour le tableau de pointeurs + n pour chaque ligne) et 1 + n appels à free lors de sa destruction. Si la k-ième ligne échoue lors de l'allocation, exactement k + 1 libérations (free) sont exécutées (k lignes + le tableau coef).
+- **Q3.3 :** Appeler deux fois de suite mat_detruire(&a) est sans danger car le premier appel réinitialise a.coef à NULL , le second appel est immédiatement stoppé par la condition if (m->coef != NULL). Cependant, avec la copie Matrice b = a, l'adresse mémoire est dupliquée. Si on détruit a, b.coef pointe sur de la mémoire libérée. Un appel ultérieur à mat_detruire(&b) provoque un plantage critique
+- **Q3.4 :** L'affectation \*res = MATRICE_VIDE en début de fonction garantit le respect de la règle R3. Si la fonction échoue prématurément (arguments invalides ou échec mémoire), l'appelant est certain de récupérer une structure neutre et sécurisée.
 
 ### Sortie Du Test (test_ex1)
+
 ```text
 === Exercice 1 : matrice.c ===
 [OK]    (1.a) message pour MAT_ERR_DIMENSIONS
@@ -155,8 +230,11 @@ Bilan : 16 / 16 verifications reussies.
 ```
 
 ### Exercice 2 : Entrées-sorties
+
 #### Code écrit
-* **2.a :**
+
+- **2.a :**
+
 ```c
 for (int i = 0; i < m->nb_lignes; i++) {
     for (int j = 0; j < m->nb_colonnes; j++)
@@ -164,7 +242,9 @@ for (int i = 0; i < m->nb_lignes; i++) {
     putchar('\n');
 }
 ```
-* **2.b :**
+
+- **2.b :**
+
 ```c
 for (int i = 0; i < m->nb_lignes; i++) {
     for (int j = 0; j < m->nb_colonnes; j++) {
@@ -175,20 +255,26 @@ for (int i = 0; i < m->nb_lignes; i++) {
         return MAT_ERR_ECRITURE;
 }
 ```
-* **2.c :**
+
+- **2.c :**
+
 ```c
 if (nb_lignes < 1 || nb_lignes > MAT_DIM_MAX
     || nb_colonnes < 1 || nb_colonnes > MAT_DIM_MAX)
     return MAT_ERR_FORMAT;
 ```
-* **2.d :**
+
+- **2.d :**
+
 ```c
 Matrice tmp;
 err = mat_allouer(&tmp, nb_lignes, nb_colonnes);
 if (err != MAT_OK)
     return err;
 ```
-* **2.e :**
+
+- **2.e :**
+
 ```c
 for (int i = 0; i < nb_lignes; i++) {
     for (int j = 0; j < nb_colonnes; j++) {
@@ -200,19 +286,23 @@ for (int i = 0; i < nb_lignes; i++) {
     }
 }
 ```
-* **2.f :**
+
+- **2.f :**
+
 ```c
 *res = tmp;
 return MAT_OK;
 ```
 
 #### Réponses aux questions
-* **Q4.1 :** mat_lire remplit d'abord une matrice locale tmp avant de l'affecter à *res pour garantir la règle R3. Si une erreur survient pendant la lecture des coefficients (fichier tronqué, donnée invalide), la fonction peut libérer tmp proprement sans laisser *res dans un état partiellement construit. L'appelant reçoit soit une matrice complète et valide, soit MATRICE_VIDE en cas d'échec.
-* **Q4.2 :** Non, la lecture ne vérifie pas que chaque ligne de la matrice est sur sa propre ligne de texte. La fonction lire_entier saute tous les blancs (espaces, tabulations, sauts de ligne) grâce à fscanf("%31s", mot). Ce n'est pas gênant car le format du fichier est tolérant en lecture : seule la séquence des entiers importe. En revanche, l'écriture est stricte (format canonique) pour garantir que le fichier produit est lisible et modifiable par un humain.
-* **Q4.3 :** Après mat_lire(f, &m), le flux f est positionné juste après le dernier coefficient. On peut donc stocker plusieurs matrices dans un même fichier en les écrivant successivement, puis en les relisant avec plusieurs appels consécutifs à mat_lire sur le même flux ouvert. Par exemple, un fichier contenant "2 2\n1 2\n3 4\n3 3\n1 2 3\n4 5 6\n7 8 9\n" permet de lire deux matrices sans fermer le fichier.
-* **Q4.4 :** mat_ecrire appelle fflush avant de renvoyer MAT_OK pour forcer l'écriture du tampon dans le fichier et détecter une erreur d'écriture (disque plein, par exemple). Cela ne dispense pas l'appelant de tester fclose : une erreur peut encore survenir lors de la fermeture du fichier (mise à jour des métadonnées du système de fichiers). La fonction sauvegarder dans main.c teste donc fclose et renvoie MAT_ERR_ECRITURE si nécessaire.
+
+- **Q4.1 :** mat_lire remplit d'abord une matrice locale tmp avant de l'affecter à *res pour garantir la règle R3. Si une erreur survient pendant la lecture des coefficients (fichier tronqué, donnée invalide), la fonction peut libérer tmp proprement sans laisser *res dans un état partiellement construit. L'appelant reçoit soit une matrice complète et valide, soit MATRICE_VIDE en cas d'échec.
+- **Q4.2 :** Non, la lecture ne vérifie pas que chaque ligne de la matrice est sur sa propre ligne de texte. La fonction lire_entier saute tous les blancs (espaces, tabulations, sauts de ligne) grâce à fscanf("%31s", mot). Ce n'est pas gênant car le format du fichier est tolérant en lecture : seule la séquence des entiers importe. En revanche, l'écriture est stricte (format canonique) pour garantir que le fichier produit est lisible et modifiable par un humain.
+- **Q4.3 :** Après mat_lire(f, &m), le flux f est positionné juste après le dernier coefficient. On peut donc stocker plusieurs matrices dans un même fichier en les écrivant successivement, puis en les relisant avec plusieurs appels consécutifs à mat_lire sur le même flux ouvert. Par exemple, un fichier contenant "2 2\n1 2\n3 4\n3 3\n1 2 3\n4 5 6\n7 8 9\n" permet de lire deux matrices sans fermer le fichier.
+- **Q4.4 :** mat_ecrire appelle fflush avant de renvoyer MAT_OK pour forcer l'écriture du tampon dans le fichier et détecter une erreur d'écriture (disque plein, par exemple). Cela ne dispense pas l'appelant de tester fclose : une erreur peut encore survenir lors de la fermeture du fichier (mise à jour des métadonnées du système de fichiers). La fonction sauvegarder dans main.c teste donc fclose et renvoie MAT_ERR_ECRITURE si nécessaire.
 
 ### Sortie Du Test (test_ex2)
+
 ```text
 === Exercice 2 : affichage (verification visuelle) ===
 M (4 x 3) :
@@ -243,19 +333,127 @@ M (4 x 3) :
 Bilan : 14 / 14 verifications reussies.
 ```
 
+<<<<<<< HEAD
+
 ### Exercice 4 : Démonstration complète
+
 #### Code écrit (4.d)
+
 ```c
 printf("Résultat enregistré dans \"%s\".\n", argv[4]);
 statut = EXIT_SUCCESS;
 ```
 
 #### Réponses aux questions
-* **Q6.3 :** Dans le scénario 8, le calcul a réussi mais l'enregistrement a échoué. Il faut libérer **3 matrices** : A, B et R. Le programme le fait grâce au point de nettoyage unique (goto nettoyage) qui détruit systématiquement les trois matrices, quel que soit le chemin emprunté. Comme mat_detruire est sans effet sur une matrice vide (R6), le nettoyage n'a pas besoin de savoir quelles matrices ont été créées.
+
+- **Q6.3 :** Dans le scénario 8, le calcul a réussi mais l'enregistrement a échoué. Il faut libérer **3 matrices** : A, B et R. Le programme le fait grâce au point de nettoyage unique (goto nettoyage) qui détruit systématiquement les trois matrices, quel que soit le chemin emprunté. Comme mat_detruire est sans effet sur une matrice vide (R6), le nettoyage n'a pas besoin de savoir quelles matrices ont été créées.
 
 #### Scénarios de test
-* **Scénario 8** : Résultat dans un dossier inexistant → "impossible de créer" ; les 3 matrices (A, B, R) sont libérées ; code de sortie 1.
-* **Scénario 9** : Échec d'allocation simulé → code MAT_ERR_ALLOCATION renvoyé, aucune fuite mémoire (les matrices partiellement allouées sont libérées).
-* **Scénario 10** : Arguments manquants ou opération inconnue → message d'usage affiché ; code de sortie 1 ; aucune allocation ni libération.
 
+- **Scénario 8** : Résultat dans un dossier inexistant → "impossible de créer" ; les 3 matrices (A, B, R) sont libérées ; code de sortie 1.
+- **Scénario 9** : Échec d'allocation simulé → code MAT_ERR_ALLOCATION renvoyé, aucune fuite mémoire (les matrices partiellement allouées sont libérées).
+- # **Scénario 10** : Arguments manquants ou opération inconnue → message d'usage affiché ; code de sortie 1 ; aucune allocation ni libération.
 
+### Exercice 3 : Calcul matriciel
+
+> > > > > > > 39521f6 (Ajout de l'exercice 3 au README)
+
+#### Code écrit
+
+- **3.a :** Vérifier les dimensions pour l'addition
+
+```c
+if (a->nb_lignes != b->nb_lignes ||
+    a->nb_colonnes != b->nb_colonnes)
+    return MAT_ERR_DIMENSIONS;
+```
+
+- **3.b :** Allouer le résultat
+
+```c
+err = mat_allouer(&r, a->nb_lignes, a->nb_colonnes);
+if (err != MAT_OK)
+    return err;
+```
+
+- **3.c :** Additionner les coefficients
+
+```c
+long long s = (long long)a->coef[i][j] + b->coef[i][j];
+```
+
+- **3.d :** Transférer le résultat
+
+```c
+*res = r;
+return MAT_OK;
+```
+
+- **3.e :** Vérifier les dimensions pour la multiplication
+
+```c
+if (a->nb_colonnes != b->nb_lignes)
+    return MAT_ERR_DIMENSIONS;
+```
+
+- **3.f :** Allouer le résultat
+
+```c
+err = mat_allouer(&r, a->nb_lignes, b->nb_colonnes);
+if (err != MAT_OK)
+    return err;
+```
+
+- **3.g :** Calculer la multiplication
+
+```c
+for (int k = 0; k < a->nb_colonnes; k++) {
+    long long p = (long long)a->coef[i][k] * b->coef[k][j];
+    if ((p > 0 && s > LLONG_MAX - p) || (p < 0 && s < LLONG_MIN - p)) {
+        mat_detruire(&r);
+        return MAT_ERR_DEPASSEMENT;
+    }
+    s += p;
+}
+```
+
+- **3.h :** Transférer le résultat
+
+```c
+*res = r;
+return MAT_OK;
+```
+
+#### Réponses aux questions
+
+- **Q5.1 :** Non, const Matrice \*a n'empêche pas de modifier a->coef[0][0]. Le const protège les champs de la structure (nb_lignes, nb_colonnes et le pointeur coef), mais pas les entiers pointés (coef[i][j]). Pour empêcher leur modification, il faudrait utiliser un pointeur de type const int
+
+- **Q5.2 :** On refuse mat_additionner(&a, &b, &a) car le troisième argument est &a donc res pointe aussi vers a.Et donc si on initialisait \*res à MATRICE_VIDE, on effacerait les informations de a avant le calcul et on risquerait une fuite mémoire.
+
+- **Q5.3 :** Pour multiplier deux matrices de dimensions n × p et p × q, on effectue n × p × q multiplications grâce aux trois boucles for. Pour deux matrices 1000 × 1000, on a n=p=q=1000 et donc on aura 1000*1000*1000 multiplications ce qui fera un milliard de multiplications.
+
+- **Q5.4 :** Il ne suffit pas de calculer int s = a + b puis de tester s < a, car un dépassement de int provoque un comportement indéfini en C. On utilise donc long long pour effectuer le calcul, puis on vérifie que le résultat est compris entre INT_MIN et INT_MAX.
+
+### Sortie Du Test (test_ex3)
+
+```text
+=== Exercice 3 : addition ===
+[OK]    (3.a) (2 x 3) + (3 x 2) : MAT_ERR_DIMENSIONS
+[OK]    (3.d) (2 x 3) + (2 x 3) : MAT_OK
+[OK]    (3.c) a + b est correct
+[OK]    a et b n'ont pas ete modifiees
+[OK]    (3.b) le resultat possede sa propre memoire
+[OK]    (3.c) INT_MAX + 1 : MAT_ERR_DEPASSEMENT
+=== Exercice 3 : multiplication ===
+[OK]    (3.e) (2 x 3) x (2 x 3) : MAT_ERR_DIMENSIONS
+[OK]    (3.h) (2 x 3) x (3 x 2) : MAT_OK
+[OK]    (3.g) a x c = (58 64 / 139 154)
+[OK]    (3.f) (3 x 2) x (2 x 3) donne une matrice 3 x 3
+[OK]    a et c n'ont pas ete modifiees
+[OK]    (3.g) 2 x 10^10 depasse INT_MAX : MAT_ERR_DEPASSEMENT
+=== Exercice 3 : cas particuliers ===
+[OK]    resultat = entree refuse, a reste intacte
+[OK]    (3.f) echec d'allocation : MAT_ERR_ALLOCATION, r vide
+
+Bilan : 14 / 14 verifications reussies.
+```
