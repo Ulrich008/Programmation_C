@@ -243,5 +243,19 @@ M (4 x 3) :
 Bilan : 14 / 14 verifications reussies.
 ```
 
+### Exercice 4 : Démonstration complète
+#### Code écrit (4.d)
+```c
+printf("Résultat enregistré dans \"%s\".\n", argv[4]);
+statut = EXIT_SUCCESS;
+```
+
+#### Réponses aux questions
+* **Q6.3 :** Dans le scénario 8, le calcul a réussi mais l'enregistrement a échoué. Il faut libérer **3 matrices** : A, B et R. Le programme le fait grâce au point de nettoyage unique (goto nettoyage) qui détruit systématiquement les trois matrices, quel que soit le chemin emprunté. Comme mat_detruire est sans effet sur une matrice vide (R6), le nettoyage n'a pas besoin de savoir quelles matrices ont été créées.
+
+#### Scénarios de test
+* **Scénario 8** : Résultat dans un dossier inexistant → "impossible de créer" ; les 3 matrices (A, B, R) sont libérées ; code de sortie 1.
+* **Scénario 9** : Échec d'allocation simulé → code MAT_ERR_ALLOCATION renvoyé, aucune fuite mémoire (les matrices partiellement allouées sont libérées).
+* **Scénario 10** : Arguments manquants ou opération inconnue → message d'usage affiché ; code de sortie 1 ; aucune allocation ni libération.
 
 
