@@ -22,7 +22,8 @@
 static MatErreur charger(const char *chemin, Matrice *m)
 {
     FILE *f = fopen(chemin, "r");
-    if (f == NULL) {
+    if (f == NULL)
+    {
         fprintf(stderr, "Erreur : impossible d'ouvrir \"%s\" : %s\n",
                 chemin, strerror(errno));
         *m = MATRICE_VIDE;
@@ -43,7 +44,8 @@ static MatErreur charger(const char *chemin, Matrice *m)
 static MatErreur sauvegarder(const char *chemin, const Matrice *m)
 {
     FILE *f = fopen(chemin, "w");
-    if (f == NULL) {
+    if (f == NULL)
+    {
         fprintf(stderr, "Erreur : impossible de créer \"%s\" : %s\n",
                 chemin, strerror(errno));
         return MAT_ERR_ECRITURE;
@@ -60,10 +62,11 @@ static MatErreur sauvegarder(const char *chemin, const Matrice *m)
 int main(int argc, char *argv[])
 {
     /* FOURNI : vérification des arguments. */
-    if (argc != 5
-        || (strcmp(argv[1], "add") != 0 && strcmp(argv[1], "mul") != 0)) {
+    if (argc != 5 || (strcmp(argv[1], "add") != 0 && strcmp(argv[1], "mul") != 0))
+    {
         fprintf(stderr, "Usage : %s <add|mul> <fichier_A> <fichier_B> "
-                        "<fichier_R>\n", argv[0]);
+                        "<fichier_R>\n",
+                argv[0]);
         return EXIT_FAILURE;
     }
     int addition = (strcmp(argv[1], "add") == 0);
@@ -79,7 +82,6 @@ int main(int argc, char *argv[])
 
     /* (4.a) À COMPLÉTER : afficher A et B avec mat_afficher.          */
 
-
     /* (4.b) À COMPLÉTER : calculer r.
      *         MatErreur err = addition ? mat_additionner(&a, &b, &r)
      *                                  : mat_multiplier(&a, &b, &r);
@@ -87,10 +89,9 @@ int main(int argc, char *argv[])
      *       mat_message_erreur(err) et les dimensions de A et de B,
      *       puis : goto nettoyage;                                    */
 
-    (void)addition;   /* ligne provisoire : à supprimer en (4.b) */
+    (void)addition; /* ligne provisoire : à supprimer en (4.b) */
 
-    /* (4.c) À COMPLÉTER : afficher r (nom "R = A + B" ou "R = A x B").  */
-
+    /* (4.c)  afficher r (nom "R = A + B" ou "R = A x B").  */
 
     mat_afficher(addition ? "R = A + B" : "R = A x B", &r);
     /* FOURNI : enregistrement de r dans le fichier argv[4]. */
@@ -102,7 +103,6 @@ int main(int argc, char *argv[])
      *         - statut = EXIT_SUCCESS;                                 */
     printf("Résultat enregistré dans \"%s\".\n", argv[4]);
     statut = EXIT_SUCCESS;
-
 
 nettoyage:
     /* FOURNI : point de sortie unique. Chaque matrice est détruite
